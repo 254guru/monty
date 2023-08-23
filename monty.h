@@ -47,7 +47,7 @@ typedef struct instruction_s
 } instruction_t;
 
 extern char **environ;
-
+extern stack_t *top;
 /* prototypes */
 
 #endif /* MONTY_H */
