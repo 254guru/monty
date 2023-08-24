@@ -67,6 +67,7 @@ void pall(stack_t **head, unsigned int count);
 void free_stack(stack_t *head);
 void add_queue(stack_t **head, int n);
 void add_node(stack_t **head, int n);
+void pint(stack_t **stack, unsigned int line_number);
 int exe(stack_t **head,  char *content, FILE *file, unsigned int counter);
 #endif /* MONTY_H */
 
