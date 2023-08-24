@@ -1,6 +1,6 @@
 #ifndef MONTY_H
 #define MONTY_H
-
+#define _GNU_SOURCE
 #define MAX_STACK_SIZE 100
 /* header directives */
 #include <stdio.h>
@@ -8,13 +8,11 @@
 #include <string.h>
 #include <stddef.h>
 #include <stdarg.h>
-#include <signal.h>
 #include <unistd.h>
 #include <errno.h>
 #include <ctype.h>
 #include <limits.h>
 #include <fcntl.h>
-#include <sys/wait.h>
 #include <sys/types.h>
 
 /* structure */
@@ -46,12 +44,28 @@ typedef struct instruction_s
         char *opcode;
         void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
-
+/**
+ * struct bus_s - variables -args, file, line content
+ * @arg: value
+ * @file: pointer to monty file
+ * @content: line content
+ * @lifi: flag change stack <-> queue
+ * Description: carries values through the program
+ */
+typedef struct bus_s
+{
+	char *arg;
+	FILE *file;
+	char *content;
+	int lifi;
+}  bus_t;
+extern bus_t bus;
 extern char **environ;
-extern stack_t *top;
 /* prototypes */
-void pall(stack_t **stack, unsigned int line_number);
-void push(stack_t **stack, unsigned int line_number, int value);
-
+void push(stack_t **head, unsigned int count, int value);
+void pall(stack_t **head, unsigned int count);
+void free_stack(stack_t *head);
+void add_queue(stack_t **head, int n);
+void add_node(stack_t **head, int n);
 #endif /* MONTY_H */
 
