@@ -8,41 +8,31 @@
  *
  * Return: 0
  */
-int exe(stack_t **head,	char *content, FILE *file, unsigned int counter)
+int exe(char *content, stack_t **head, unsigned int counter, FILE *file)
 {
-	char *opcode = strtok(content, " \t\n");
-	char *arg = strtok(NULL, " \t\n");
+	instruction_t opst[] = {
+		{"push", push},
+		{"pall", pall},
+		{"pint", pint},
+		{NULL, NULL}	};
+	unsigned int i = 0;
+	char *op;
 
-	if (opcode)
+	op = strtok(content, " \n\t");
+	if (op && op[0] == '#')
+		return (0);
+	bus.arg = strtok(NULL, " \n\t");
+	while (opst[i].opcode && op)
 	{
-	if (strcmp(opcode, "push") == 0)
-	{
-	if (arg)
-	{
-	}
-	else
-	{
-	fprintf(stderr, "L%u: usage: push integer\n", counter);
-	fclose(file);
-	free(bus.content);
-	free_stack(*head);
-	exit(EXIT_FAILURE);
-	}
-	}
-	else if (strcmp(opcode, "pall") == 0)
-	{
-	pall(head, counter);
-	}
-	else
-	{
-	fprintf(stderr, "L%u: unknown instruction %s\n", counter, opcode);
-	fclose(file);
-	free(bus.content);
-	free_stack(*head);
-	exit(EXIT_FAILURE);
-	}
-	}
-
-	return (0);
+		if (strcmp(op, opst[i].opcode) == 0)
+		{	opst[i].f(head, counter);
+			return (0);		}
+		i++;	}
+	if (op && opst[i].opcode == NULL)
+	{ fprintf(stderr, "L%d: unknown instruction %s\n", counter, op);
+		fclose(file);
+		free(content);
+		free_stack(*head);
+		exit(EXIT_FAILURE); }
+	return (1);
 }
-

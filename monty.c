@@ -9,51 +9,38 @@ bus_t bus = {NULL, NULL, NULL, 0};
  */
 int main(int argc, char *argv[])
 {
-	FILE *file = fopen(argv[1], "r");
+	char *content;
+	FILE *file;
+	size_t size = 0;
+	ssize_t read_line = 1;
 	stack_t *stack = NULL;
-	char buffer[1024];
-	unsigned int line_number = 1;
-	char *opcode = strtok(buffer, " \t\n");
-	char *value_str = strtok(NULL, " \t\n");
+	unsigned int counter = 0;
 
 	if (argc != 2)
 	{
-	fprintf(stderr, "USAGE: monty file\n");
-	return (EXIT_FAILURE);
+		fprintf(stderr, "USAGE: monty file\n");
+		exit(EXIT_FAILURE);
 	}
+	file = fopen(argv[1], "r");
+	bus.file = file;
 	if (!file)
 	{
-	fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-	return (EXIT_FAILURE);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
+		exit(EXIT_FAILURE);
 	}
-	while (fgets(buffer, sizeof(buffer), file))
+	while (read_line > 0)
 	{
-	if (opcode)
-	{
-	if (strcmp(opcode, "push") == 0)
-	{
-	if (value_str)
-	{
+		content = NULL;
+		read_line = getline(&content, &size, file);
+		bus.content = content;
+		counter++;
+		if (read_line > 0)
+		{
+			exe(content, &stack, counter, file);
+		}
+		free(content);
 	}
-	else
-	{
-	fprintf(stderr, "L%u: usage: push integer\n", line_number);
-	return (EXIT_FAILURE);
-	}
-	}
-	else if (strcmp(opcode, "pall") == 0)
-	{
-	pall(&stack, line_number);
-	}
-	else
-	{
-	fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
-	return (EXIT_FAILURE);
-	}
-	}
-	}
-
+	free_stack(stack);
 	fclose(file);
-	return (EXIT_SUCCESS);
+	return (0);
 }
-
