@@ -62,6 +62,7 @@ typedef struct bus_s
 extern bus_t bus;
 extern char **environ;
 /* prototypes */
+void push(stack_t **stack, int value);
 void pall(stack_t **head, unsigned int count);
 void free_stack(stack_t *head);
 void add_queue(stack_t **head, int n);
