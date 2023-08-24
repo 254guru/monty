@@ -19,9 +19,6 @@ int exe(stack_t **head,	char *content, FILE *file, unsigned int counter)
 	{
 	if (arg)
 	{
-	unsigned int value = atoi(arg);
-
-	push(head, value);
 	}
 	else
 	{
