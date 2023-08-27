@@ -13,7 +13,7 @@ void f_swap(stack_t **head, unsigned int counter)
 	t = *head;
 	while (t)
 	{
-		h = h->next;
+		t = t->next;
 		len++;
 	}
 	if (len < 2)
