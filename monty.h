@@ -62,12 +62,5 @@ typedef struct bus_s
 extern bus_t bus;
 extern char **environ;
 /* prototypes */
-void push(stack_t **stack, int value);
-void pall(stack_t **head, unsigned int count);
-void free_stack(stack_t *head);
-void add_queue(stack_t **head, int n);
-void add_node(stack_t **head, int n);
-void pint(stack_t **stack, unsigned int line_number);
-int exe(char *content,stack_t **head, unsigned int counter, FILE *file);
 #endif /* MONTY_H */
 
