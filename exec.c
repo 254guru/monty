@@ -21,6 +21,7 @@ int execute(char *line_content, stack_t **stack,
 				{"queue", f_queue},
 				{"stack", f_stack},
 				{"sub", f_sub},
+				{"div", f_div},
 				{NULL, NULL}
 				};
 	unsigned int i = 0;
